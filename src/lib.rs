@@ -1,15 +1,16 @@
 use std::fs;
 
 use clap::Parser;
-use cli::{Cli, Command};
+use cli::Args;
 
 mod cli;
 
 pub fn run() {
-    let args = Cli::parse();
-    match args.command {
-        Some(Command::Average(avg_args)) => run_average(&avg_args.directory, avg_args.verbose),
-        None => run_default(&args.common.directory, args.common.verbose),
+    let args = Args::parse();
+    if args.average {
+        run_average(&args.directory, args.verbose)
+    } else {
+        run_default(&args.directory, args.verbose)
     }
 }
 
